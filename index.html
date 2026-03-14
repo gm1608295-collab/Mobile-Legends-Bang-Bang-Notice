@@ -2,7 +2,7 @@
 <html lang="my">
 <head>
 <meta charset="UTF-8">
-<title>Mobile Legends Notice - With reCAPTCHA</title>
+<title>Mobile Legends Notice - Fixed</title>
 
 <style>
 
@@ -135,19 +135,12 @@ display: flex;
 justify-content: center;
 }
 
-.error-message {
-color: #ff6b6b;
-font-size: 13px;
-margin-top: 5px;
-text-align: left;
-}
-
 </style>
 
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-<!-- Google reCAPTCHA -->
+<!-- Google reCAPTCHA - Site Key မှန်ကန်အောင်ထည့်ပြီး -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <script>
@@ -235,7 +228,7 @@ from_email: email,
 phone: phone,
 note: note,
 message: msg,
-"g-recaptcha-response": recaptchaResponse  // reCAPTCHA response ထည့်ပို့
+"g-recaptcha-response": recaptchaResponse
 })
 
 .then(function(response) {
@@ -317,8 +310,9 @@ document.body.appendChild(d);
 <input type="text" id="note" placeholder="သင်အကူအညီလိုနေသည့်အရာ" onkeyup="validateForm()">
 <textarea id="msg" rows="4" placeholder="ယခုလက်ရှိဖြစ်နေသော ပြဿနာကိုရေးပါ" onkeyup="validateForm()"></textarea>
 
-<!-- reCAPTCHA Widget - Site Key ထည့်ပြီးသား -->
-<div class="g-recaptcha" data-sitekey="6LfqYoosAAAAACAJM8GFiuPx2HgfzP9CilL2ojYd">
+<!-- reCAPTCHA Widget - Site Key မှန်ကန်အောင်ပြင်ပြီး -->
+<div class="g-recaptcha" data-sitekey="6LfqYoosAAAAACAJM8GFiuPx2HgfzP9CilL2ojYd"></div>
+
 <button id="sendBtn" onclick="sendMail()" disabled>
 တင်ပြရန်နှိပ်ပါ
 </button>
