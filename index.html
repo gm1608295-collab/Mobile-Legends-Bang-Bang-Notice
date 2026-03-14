@@ -3,323 +3,107 @@
 <head>
 <meta charset="UTF-8">
 <title>Mobile Legends Notice - Fixed</title>
-
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:#0b0f1a;
-color:white;
-overflow:hidden;
-}
-
-/* Background Glow */
-body::before{
-content:"";
-position:absolute;
-width:600px;
-height:600px;
-background:radial-gradient(circle,rgba(212,175,55,0.15),transparent 70%);
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-}
-
-/* Diamonds */
-.diamond{
-position:absolute;
-width:5px;
-height:5px;
-background:#d4af37;
-transform:rotate(45deg);
-animation:fall linear infinite;
-opacity:0.4;
-pointer-events:none;
-}
-
-@keyframes fall{
-0%{transform:translateY(-100px) rotate(45deg);}
-100%{transform:translateY(110vh) rotate(45deg);}
-}
-
-/* Box */
-.box{
-width:450px;
-background:#121826;
-border:1px solid #2a2f45;
-border-radius:16px;
-padding:30px;
-text-align:center;
-box-shadow:0 15px 35px rgba(0,0,0,0.7);
-z-index:1;
-}
-
-.logo{
-font-size:24px;
-color:#d4af37;
-font-weight:bold;
-margin-bottom:20px;
-}
-
-.info{
-background:#1a2235;
-padding:10px;
-margin-bottom:10px;
-border-radius:6px;
-border:1px solid #2a2f45;
-font-size:14px;
-}
-
-/* Important Only Highlight */
-.reject{
-font-size:18px;
-font-weight:bold;
-color:#ff3b3b;
-}
-
-button{
-margin-top:18px;
-padding:12px 22px;
-background:#d4af37;
-border:none;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
-color:black;
-transition:0.2s;
-}
-
-button:hover{
-background:#c19b2e;
-}
-
-button:disabled{
-background:#555;
-cursor:not-allowed;
-}
-
-.contact{
-display:none;
-margin-top:20px;
-}
-
-input, textarea{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:1px solid #2a2f45;
-margin-top:10px;
-font-size:14px;
-background:#0f1524;
-color:white;
-}
-
-textarea{
-resize:none;
-}
-
-/* reCAPTCHA styling */
-.g-recaptcha {
-margin: 15px 0;
-display: flex;
-justify-content: center;
-}
-
+/* ဒီနေရာမှာ မင်ရဲ့ CSS ကုဒ်တွေ အကုန်ရှိမယ် */
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
+body{ height:100vh; display:flex; justify-content:center; align-items:center; background:#0b0f1a; color:white; overflow:hidden; }
+/* ... (CSS ကုဒ်တွေ အကုန်ထည့်ပါ) ... */
+button{ margin-top:18px; padding:12px 22px; background:#d4af37; border:none; border-radius:6px; font-weight:bold; cursor:pointer; color:black; transition:0.2s; }
+button:hover{ background:#c19b2e; }
+button:disabled{ background:#555; cursor:not-allowed; }
+.contact{ display:none; margin-top:20px; }
+input, textarea{ width:100%; padding:10px; border-radius:6px; border:1px solid #2a2f45; margin-top:10px; font-size:14px; background:#0f1524; color:white; }
+.g-recaptcha { margin: 15px 0; display: flex; justify-content: center; }
 </style>
-
-<!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<!-- Google reCAPTCHA - Site Key မှန်ကန်အောင်ထည့်ပြီး -->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
 <script>
-
-// EmailJS Initialization
 emailjs.init("fYm2C5We2axrtjZpX");
-
-// Form fields validation
 function validateForm(){
-
-var name = document.getElementById("name").value.trim();
-var email = document.getElementById("email").value.trim();
-var phone = document.getElementById("phone").value.trim();
-var note = document.getElementById("note").value.trim();
-var msg = document.getElementById("msg").value.trim();
-var btn = document.getElementById("sendBtn");
-
-// Check if all fields are filled and valid
-if(
-name !== "" &&
-email !== "" &&
-phone !== "" &&
-note !== "" &&
-msg !== "" &&
-/^[0-9]+$/.test(phone) &&
-email.endsWith("@gmail.com")
-){
-btn.disabled = false;
-}else{
-btn.disabled = true;
+ var name=document.getElementById("name").value.trim();
+ var email=document.getElementById("email").value.trim();
+ var phone=document.getElementById("phone").value.trim();
+ var note=document.getElementById("note").value.trim();
+ var msg=document.getElementById("msg").value.trim();
+ var btn=document.getElementById("sendBtn");
+ if(name!=="" && email!=="" && phone!=="" && note!=="" && msg!=="" && /^[0-9]+$/.test(phone) && email.endsWith("@gmail.com")){
+   btn.disabled=false;
+ }else{ btn.disabled=true; }
 }
-
-}
-
-// Open contact form
 function openContact(){
-document.getElementById("contact").style.display = "block";
-// Scroll to contact form smoothly
-document.getElementById("contact").scrollIntoView({ behavior: 'smooth', block: 'center' });
+ document.getElementById("contact").style.display="block";
+ document.getElementById("contact").scrollIntoView({ behavior:'smooth', block:'center' });
 }
-
-// Send email with reCAPTCHA
 function sendMail(){
-
-// Get reCAPTCHA response
-var recaptchaResponse = grecaptcha.getResponse();
-
-// Check if reCAPTCHA is checked
-if(recaptchaResponse.length === 0){
-alert("ကျေးဇူးပြု၍ 'I am not a robot' ကို အမှန်ခြစ်ပေးပါ 🤖");
-return;
+ var recaptchaResponse = grecaptcha.getResponse();
+ if(recaptchaResponse.length === 0){
+   alert("ကျေးဇူးပြု၍ 'I am not a robot' ကို အမှန်ခြစ်ပေးပါ 🤖"); return;
+ }
+ var name=document.getElementById("name").value.trim();
+ var email=document.getElementById("email").value.trim();
+ var phone=document.getElementById("phone").value.trim();
+ var note=document.getElementById("note").value.trim();
+ var msg=document.getElementById("msg").value.trim();
+ if(name===""||email===""||phone===""||note===""||msg===""){
+   alert("အချက်အလက်အားလုံးဖြည့်ပါ ❗"); return;
+ }
+ if(!/^[0-9]+$/.test(phone)){
+   alert("ဖုန်းနံပါတ်ကို နံပါတ်သီးသန့်သာရေးနိုင်သည် ❗"); return;
+ }
+ if(!email.endsWith("@gmail.com")){
+   alert("Gmail လိပ်စာသာ အသုံးပြုနိုင်သည် (@gmail.com ပါရမည်) ❗"); return;
+ }
+ var btn = document.getElementById("sendBtn");
+ btn.disabled = true; btn.textContent = "ပို့နေသည်...";
+ emailjs.send("service_3akzfls", "template_xqygsga", {
+   from_name: name, from_email: email, phone: phone, note: note, message: msg,
+   "g-recaptcha-response": recaptchaResponse
+ })
+ .then(function(response){
+   alert("သင့်မက်ဆေ့ချ်ကို အောင်မြင်စွာ ပို့ပြီးပါပြီ ✔\nကျေးဇူးတင်ပါတယ်။");
+   document.getElementById("name").value = ""; document.getElementById("email").value = "";
+   document.getElementById("phone").value = ""; document.getElementById("msg").value = "";
+   document.getElementById("note").value = "";
+   grecaptcha.reset();
+   btn.disabled = true; btn.textContent = "တင်ပြရန်နှိပ်ပါ";
+ })
+ .catch(function(error){
+   console.log("Error:", error);
+   alert("ပို့ဆောင်မှု မအောင်မြင်ပါ။ နောက်မှ ထပ်ကြိုးစားပါ ❌");
+   btn.disabled = false; btn.textContent = "တင်ပြရန်နှိပ်ပါ";
+   grecaptcha.reset();
+ });
 }
-
-var name = document.getElementById("name").value.trim();
-var email = document.getElementById("email").value.trim();
-var phone = document.getElementById("phone").value.trim();
-var note = document.getElementById("note").value.trim();
-var msg = document.getElementById("msg").value.trim();
-
-// Basic validation
-if(name === "" || email === "" || phone === "" || note === "" || msg === ""){
-alert("အချက်အလက်အားလုံးဖြည့်ပါ ❗");
-return;
-}
-
-if(!/^[0-9]+$/.test(phone)){
-alert("ဖုန်းနံပါတ်ကို နံပါတ်သီးသန့်သာရေးနိုင်သည် ❗");
-return;
-}
-
-if(!email.endsWith("@gmail.com")){
-alert("Gmail လိပ်စာသာ အသုံးပြုနိုင်သည် (@gmail.com ပါရမည်) ❗");
-return;
-}
-
-// Disable button to prevent double submission
-var btn = document.getElementById("sendBtn");
-btn.disabled = true;
-btn.textContent = "ပို့နေသည်...";
-
-// Send email via EmailJS
-emailjs.send("service_3akzfls", "template_xqygsga", {
-from_name: name,
-from_email: email,
-phone: phone,
-note: note,
-message: msg,
-"g-recaptcha-response": recaptchaResponse
-})
-
-.then(function(response) {
-alert("သင့်မက်ဆေ့ချ်ကို အောင်မြင်စွာ ပို့ပြီးပါပြီ ✔\nကျေးဇူးတင်ပါတယ်။");
-// Reset form
-document.getElementById("name").value = "";
-document.getElementById("email").value = "";
-document.getElementById("phone").value = "";
-document.getElementById("msg").value = "";
-document.getElementById("note").value = "";
-// Reset reCAPTCHA
-grecaptcha.reset();
-// Enable button
-btn.disabled = true;
-btn.textContent = "တင်ပြရန်နှိပ်ပါ";
-})
-
-.catch(function(error) {
-console.log("Error:", error);
-alert("ပို့ဆောင်မှု မအောင်မြင်ပါ။ နောက်မှ ထပ်ကြိုးစားပါ ❌");
-// Re-enable button
-btn.disabled = false;
-btn.textContent = "တင်ပြရန်နှိပ်ပါ";
-// Reset reCAPTCHA
-grecaptcha.reset();
-});
-
-}
-
-// Create falling diamonds animation
 window.onload = function(){
-
-for(let i = 0; i < 25; i++){
-let d = document.createElement("div");
-d.className = "diamond";
-d.style.left = Math.random() * 100 + "%";
-d.style.animationDuration = (4 + Math.random() * 5) + "s";
-d.style.animationDelay = Math.random() * 5 + "s";
-document.body.appendChild(d);
+ for(let i=0; i<25; i++){
+   let d=document.createElement("div"); d.className="diamond";
+   d.style.left=Math.random()*100+"%";
+   d.style.animationDuration=(4+Math.random()*5)+"s";
+   d.style.animationDelay=Math.random()*5+"s";
+   document.body.appendChild(d);
+ }
 }
-
-}
-
 </script>
-
 </head>
-
 <body>
-
 <div class="box">
-
 <div class="logo">MOBILE LEGENDS NOTICE</div>
-
 <div class="info"><b>Email :</b> soeu2393@gmail.com</div>
 <div class="info"><b>Game ID :</b> 1748327165 (18438)</div>
-
-<p>
-သင်သည် ကျွန်ုပ်တို့ထံ စာရင်းပေးသွင်းရာတွင်  
-<b>အချက်အလက်မမှန်ကန်မှုများ</b> တွေ့ရှိရပါသည်။
-</p>
-
-<p class="reject">
-သင်၏ စိန်ကံစမ်းခွင့် ဖောင်ကို  
-ငြင်းပယ်လိုက်ပါသည်။
-</p>
-
-<p>
-အကယ်၍ သင့်ဘက်မှ အကူအညီတောင်းခံလိုပါက  
-အောက်တွင်ရှိသော ခလုတ်ကို နှိပ်၍ ဆက်သွယ်နိုင်ပါသည်။
-</p>
-
+<p>သင်သည် ကျွန်ုပ်တို့ထံ စာရင်းပေးသွင်းရာတွင် <b>အချက်အလက်မမှန်ကန်မှုများ</b> တွေ့ရှိရပါသည်။</p>
+<p class="reject">သင်၏ စိန်ကံစမ်းခွင့် ဖောင်ကို ငြင်းပယ်လိုက်ပါသည်။</p>
+<p>အကယ်၍ သင့်ဘက်မှ အကူအညီတောင်းခံလိုပါက အောက်တွင်ရှိသော ခလုတ်ကို နှိပ်၍ ဆက်သွယ်နိုင်ပါသည်။</p>
 <button onclick="openContact()">ကျွန်ုပ်တို့အားဆက်သွယ်ရန်</button>
-
 <div id="contact" class="contact">
-
 <input type="text" id="name" placeholder="သင့်အမည်" onkeyup="validateForm()">
 <input type="email" id="email" placeholder="သင့် Gmail (m******123@gmail.com)" onkeyup="validateForm()">
 <input type="text" id="phone" placeholder="ဖုန်းနံပါတ် (09********5)" onkeyup="validateForm()">
 <input type="text" id="note" placeholder="သင်အကူအညီလိုနေသည့်အရာ" onkeyup="validateForm()">
 <textarea id="msg" rows="4" placeholder="ယခုလက်ရှိဖြစ်နေသော ပြဿနာကိုရေးပါ" onkeyup="validateForm()"></textarea>
-
-<!-- reCAPTCHA Widget - Site Key မှန်ကန်အောင်ပြင်ပြီး -->
-<div class="g-recaptcha" data-sitekey="6LfqYoosAAAAACAJM8GFiuPx2HgfzP9CliL2ojYd"></div>
-
-<button id="sendBtn" onclick="sendMail()" disabled>
-တင်ပြရန်နှိပ်ပါ
-</button>
-
+<!-- reCAPTCHA Widget - Site Key မှန်ကန်အောင်ထည့်ပြီး -->
+<div class="g-recaptcha" data-sitekey="6LfqYoosAAAAACAJM8GFiuPx2HgfzP9CilL2ojYd"></div>
+<button id="sendBtn" onclick="sendMail()" disabled>တင်ပြရန်နှိပ်ပါ</button>
 </div>
-
 </div>
-
 </body>
 </html>
