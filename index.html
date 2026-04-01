@@ -86,7 +86,7 @@
             <button onclick="doLogin()">Sign in</button>
             <div class="row-buttons">
                 <button onclick="doGuest()">Guest</button>
-                <button onclick="window.location.href='/auth/google'">Google</button>
+                <button onclick="alert('Google Login coming soon')">Google</button>
             </div>
             <div class="link"><a onclick="showSignup()">Create account</a></div>
             <div class="admin-link"><a href="/admin-login.html">🔐 Admin Access</a></div>
@@ -111,8 +111,7 @@
             window.location.href = '/dashboard.html';
         }
 
-        // Local Login (Fake - with persistence)
-        async function doLogin() {
+        function doLogin() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
@@ -121,30 +120,24 @@
                 return;
             }
             
-            // Get users from localStorage
             let users = JSON.parse(localStorage.getItem('users') || '[]');
             const user = users.find(u => u.email === email && u.password === password);
             
             if (user) {
-                // Save current user session
                 localStorage.setItem('currentUser', JSON.stringify({
                     id: user.id,
                     email: user.email,
                     username: user.username,
-                    role: user.role || 'user',
-                    loginTime: new Date().toISOString()
+                    role: user.role || 'user'
                 }));
                 showMsg('Login successful! Redirecting...', 'success');
-                setTimeout(() => {
-                    window.location.href = '/dashboard.html';
-                }, 1000);
+                setTimeout(() => { window.location.href = '/dashboard.html'; }, 1000);
             } else {
                 showMsg('Invalid email or password', 'error');
             }
         }
 
-        // Signup
-        async function doSignup() {
+        function doSignup() {
             const username = document.getElementById('signupUsername').value;
             const phone = document.getElementById('signupPhone').value;
             const email = document.getElementById('signupEmail').value;
@@ -162,40 +155,31 @@
             
             let users = JSON.parse(localStorage.getItem('users') || '[]');
             
-            // Check if email exists
             if (users.find(u => u.email === email)) {
                 showMsg('Email already exists', 'error');
                 return;
             }
             
-            // Create new user
-            const newUser = {
+            users.push({
                 id: Date.now(),
                 username: username || 'User',
                 phone: phone || '',
                 email: email,
                 password: password,
-                role: 'user',
-                createdAt: new Date().toISOString()
-            };
+                role: 'user'
+            });
             
-            users.push(newUser);
             localStorage.setItem('users', JSON.stringify(users));
-            
             showMsg('Signup successful! Please login.', 'success');
             setTimeout(() => showLogin(), 2000);
         }
 
-        // Guest Login
-        async function doGuest() {
-            // Create temporary guest session
-            const guestId = 'guest_' + Date.now();
+        function doGuest() {
             localStorage.setItem('currentUser', JSON.stringify({
-                id: guestId,
+                id: 'guest_' + Date.now(),
                 email: 'guest@example.com',
                 username: 'Guest',
                 role: 'guest',
-                loginTime: new Date().toISOString(),
                 isGuest: true
             }));
             window.location.href = '/dashboard.html';
