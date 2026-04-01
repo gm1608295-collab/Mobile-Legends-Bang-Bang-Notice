@@ -24,8 +24,6 @@
         .date { font-size: 18px; color: #2c3e50; margin: 15px 0; padding: 10px; background: #f0f0f0; border-radius: 10px; }
         button { padding: 12px 25px; border: none; border-radius: 50px; font-size: 16px; cursor: pointer; }
         .logout { background: #e74c3c; color: white; }
-        .admin-link { margin-top: 15px; }
-        .admin-link a { color: #3498db; font-size: 12px; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -36,22 +34,18 @@
             <p>မြန်မာစံတော်ချိန်</p>
             <div class="date" id="dateInfo"></div>
             <button class="logout" onclick="logout()">ထွက်မည်</button>
-            <div class="admin-link"><a href="/admin-login.html">🔐 Admin Panel</a></div>
         </div>
     </div>
     <script>
-        // Session check - if not logged in, redirect to login
         const currentUser = localStorage.getItem('currentUser');
         if (!currentUser) {
             window.location.href = '/';
         }
-        
         try {
             const user = JSON.parse(currentUser);
             document.getElementById('userName').innerText = user.username || user.email || 'User';
         } catch(e) {}
         
-        // Analog Clock
         const canvas = document.getElementById('clockCanvas');
         const ctx = canvas.getContext('2d');
         
